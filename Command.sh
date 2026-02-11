@@ -3,4 +3,4 @@
 # for dockerfile, you do not need this line;
 # for linux, you can use it for the first time you run this shell command
 clang -o mouse_wiggler mouse_wiggler.c $(pkg-config --cflags --libs libevdev)
-./mouse_wiggler
+sudo ./mouse_wiggler # sudo for perror
