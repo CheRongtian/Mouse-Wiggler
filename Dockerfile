@@ -13,4 +13,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN clang -o mouse_wiggler mouse_wiggler.c $(pkg-config --cflags --libs libevdev)
+# if you want to compile and run in local
+# you could: sudo clang -o mouse_wiggler mouse_wiggler.c $(pkg-config --cflags --libs libevdev)
+
 CMD ["/bin/bash"]

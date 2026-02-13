@@ -4,11 +4,15 @@ A Linux kernel-level mouse emulator written in **C**. It creates a virtual devic
  
 ## System Requirements
 
-**OS**: **Linux Only** (e.g., Ubuntu 22.04+). This project relies on the Linux-specific ```uinput``` kernel module and cannot run natively on macOS or Windows.
+**OS**: **Linux Only** (e.g., Ubuntu 22.04+). This project relies on the Linux-specific ```uinput``` kernel module and cannot run natively on macOS or Windows. Ubuntu Linux with a Graphical User Interface (GUI) is required (Wayland is **not** supported).
+- To switch: Log out → Select User → Click the Gear Icon → Choose **"Ubuntu on Xorg"** → Log in.
 
 **Environment Consistency**: Includes a ```Dockerfile``` to ensure the build environment is identical across different Linux distributions.
 
 **Permissions**: Requires ```sudo``` to access ```/dev/uinput``` and ```/dev/input``` device files.
+
+**Virtual Machine (UTM/QEMU):** **Mouse Capture** mode is mandatory. The host system's mouse integration will conflict with the simulated movement.
+- *Action:* You must press `Control + Option` (or use the capture button) to lock the cursor exclusively inside the VM window.
 
 ## Installation & Usage
 
@@ -19,13 +23,7 @@ Install the required development libraries:
 ```bash
 sudo apt update 
 sudo apt install -y clang libevdev-dev pkg-config
-```
-
-Run the provided build script (Make sure you double check ```those comments``` in that shell command):
-
-```bash
-chmod +x Command.sh
-sudo ./Command.sh
+sudo clang -o mouse_wiggler mouse_wiggler.c $(pkg-config --cflags --libs libevdev)
 ```
 
 ### 2. Docker (Containerized Run)
@@ -45,7 +43,5 @@ sudo docker run -it --privileged -v /dev:/dev mouse_wiggler
 **`mouse_wiggler.c`**: The main source file 
 
 **`Dockerfile`**: Defines the Ubuntu 22.04 build environment and dependencies.
-
-**`Command.sh`**: A shell script for local compilation and testing.
 
 **`Docker.sh`**: A shell script to automate the Docker build and privileged execution process.
